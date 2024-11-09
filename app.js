@@ -1,11 +1,15 @@
 const express = require('express')
 const path = require('path')
+const http = require('http')
+const socketIo = require('socket.io')
+
 const app = express()
-const PORT = process.env.PORT || 4000
-const server = app.listen(PORT, () => console.log(`💬 server on port ${PORT}`))
+const server = http.createServer(app)
+const io = socketIo(server)
 
-const io = require('socket.io')(server)
+const PORT = process.env.PORT || 4000;
 
+server.listen(PORT, () => console.log(`💬 server on port ${PORT}`));
 app.use(express.static(path.join(__dirname, 'public')))
 
 let socketsConected = new Set()
